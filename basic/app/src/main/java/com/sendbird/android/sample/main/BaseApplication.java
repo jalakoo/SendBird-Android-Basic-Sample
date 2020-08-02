@@ -10,7 +10,7 @@ import com.sendbird.android.sample.utils.PushUtils;
 
 public class BaseApplication extends Application {
 
-    private static final String APP_ID = "9DA1B1F4-0BE6-4DA8-82C5-2E81DAB56F23"; // US-1 Demo
+    private static final String APP_ID = "17B188C7-F0C8-4F94-8635-E8C5C02430E3"; // US-1 Demo
     public static final String VERSION = "3.0.40";
 
     @Override

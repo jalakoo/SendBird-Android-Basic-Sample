@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.sendbird.android.GroupChannel;
+import com.sendbird.android.GroupChannelParams;
 import com.sendbird.android.SendBirdException;
 import com.sendbird.android.sample.R;
 import com.sendbird.android.sample.utils.PreferenceUtils;
@@ -156,7 +157,16 @@ public class CreateGroupChannelActivity extends AppCompatActivity
      *                  the existing channel instance will be returned.
      */
     private void createGroupChannel(List<String> userIds, boolean distinct) {
-        GroupChannel.createChannelWithUserIds(userIds, distinct, new GroupChannel.GroupChannelCreateHandler() {
+        GroupChannelParams params = new GroupChannelParams()
+                .setPublic(false)
+                .setEphemeral(false)
+                .setDistinct(false)
+                .addUserIds(userIds)
+                .setCustomType("jason");
+
+        GroupChannel.createChannel(params, new GroupChannel.GroupChannelCreateHandler(){
+
+//        GroupChannel.createChannelWithUserIds(userIds, distinct,new GroupChannel.GroupChannelCreateHandler() {
             @Override
             public void onResult(GroupChannel groupChannel, SendBirdException e) {
                 if (e != null) {

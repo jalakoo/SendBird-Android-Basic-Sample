@@ -245,7 +245,14 @@ class GroupChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void bind(final Context context, int position, final GroupChannel channel,
                   @Nullable final OnItemClickListener clickListener,
                   @Nullable final OnItemLongClickListener longClickListener) {
-            topicText.setText(TextUtils.getGroupChannelTitle(channel));
+            String defaultTitle = TextUtils.getGroupChannelTitle(channel);
+            String customType = channel.getCustomType();
+            if (customType != "" || customType != null ){
+                String title = defaultTitle + " | " + customType;
+                topicText.setText(title);
+            } else {
+                topicText.setText(TextUtils.getGroupChannelTitle(channel));
+            }
             memberCountText.setText(String.valueOf(channel.getMemberCount()));
 
             setChannelImage(context, position, channel, coverImage);
