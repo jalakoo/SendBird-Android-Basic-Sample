@@ -1,10 +1,14 @@
 package com.sendbird.android.sample.groupchannel;
 
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AlertDialog;
@@ -25,11 +29,14 @@ import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdException;
 import com.sendbird.android.sample.R;
 import com.sendbird.android.sample.main.ConnectionManager;
+import com.sendbird.android.sample.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.NOTIFICATION_SERVICE;
+
 
 public class GroupChannelListFragment extends Fragment {
 
@@ -94,6 +101,27 @@ public class GroupChannelListFragment extends Fragment {
         return rootView;
     }
 
+    public void showNotification(BaseMessage message){
+        NotificationCompat.Builder builder;
+
+        Intent intent = new Intent(getContext(), GroupChannelListFragment.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                getContext(),
+                0,
+                intent,
+                0
+        );
+        builder = new NotificationCompat.Builder(getContext(), "SendBird")
+                .setSmallIcon(R.drawable.logo_sendbird)
+                .setContentTitle("SendBird Message")
+                .setContentText(message.getMessage())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
+        notificationManager.notify(0, builder.build());
+    }
+
     @Override
     public void onResume() {
         Log.d("LIFECYCLE", "GroupChannelListFragment onResume()");
@@ -105,9 +133,11 @@ public class GroupChannelListFragment extends Fragment {
             }
         });
 
+
         SendBird.addChannelHandler(CHANNEL_HANDLER_ID, new SendBird.ChannelHandler() {
             @Override
             public void onMessageReceived(BaseChannel baseChannel, BaseMessage baseMessage) {
+                showNotification(baseMessage);
             }
 
             @Override

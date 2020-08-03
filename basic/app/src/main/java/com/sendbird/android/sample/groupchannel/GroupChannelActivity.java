@@ -1,5 +1,8 @@
 package com.sendbird.android.sample.groupchannel;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,6 +20,8 @@ public class GroupChannelActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_channel);
+
+        createNotificationChannel();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_group_channel);
         setSupportActionBar(toolbar);
@@ -46,6 +51,22 @@ public class GroupChannelActivity extends AppCompatActivity{
                     .replace(R.id.container_group_channel, fragment)
                     .addToBackStack(null)
                     .commit();
+        }
+    }
+
+        private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Jason Channel";
+            String descripton = "";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("SendBird", name, importance);
+            channel.setDescription(descripton);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 

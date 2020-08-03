@@ -33,7 +33,8 @@
         </activity>
         <activity android:name=".main.MainActivity"
             android:launchMode="singleTask"
-            android:label="@string/select_channel_type"/>
+            android:label="@string/select_channel_type">
+        </activity>
         <activity
             android:name=".main.SettingsActivity"
             android:launchMode="singleTop"
@@ -79,8 +80,12 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".groupchannel.GroupChannelActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden" />
-
+            android:windowSoftInputMode="stateHidden">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/img_notification" />
